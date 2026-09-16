@@ -1,0 +1,1351 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIRST TIME DEAD — London</title>
+    <meta name="description" content="First Time Dead. Melodic hardcore punk from London UK. New EP Turmoil out now.">
+    <meta property="og:title" content="First Time Dead">
+    <meta property="og:description" content="New EP Turmoil out now.">
+    <meta property="og:image" content="images/turmoil-ep-cover.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Bebas+Neue&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+
+    /* ═══════════════════════════════════════════════
+       DESIGN SYSTEM TOKENS  (style guide v1.0)
+       — greys tuned for WCAG AA contrast on #0A0A0A
+    ═══════════════════════════════════════════════ */
+    :root {
+        --black:  #0A0A0A;
+        --white:  #FFFFFF;
+        --bone:   #E8E8E8;
+        --card:   #161616;
+        --line:   #222222;   /* DECORATIVE borders/dividers only — never text */
+        --line-fn:#666666;   /* functional input borders — 3.4:1 ✓ */
+        --muted:  #8E8E8E;   /* labels/captions/meta — 6.0:1 ✓ AA  */
+        --dim:    #A0A0A0;   /* nav links / sec-desc — 7.5:1 ✓ AAA */
+        --silver: #B8B8B8;   /* secondary headings   — 10:1 ✓ AAA  */
+        --faint:  #6E6E6E;   /* LARGE decorative numerals — 3.8:1 ✓ AA-large */
+        --red:    #FFFD0C;
+        --red-dk: #D4D100;
+
+        --sp-1:  8px;
+        --sp-2:  16px;
+        --sp-3:  24px;
+        --sp-4:  32px;
+        --sp-6:  48px;
+        --sp-8:  64px;
+        --sp-10: 80px;
+        --sp-12: 96px;
+        --sp-16: 128px;
+        --sp-20: 160px;
+
+        --pad-sec:  clamp(72px, 10vw, 130px);
+        --pad-hero: clamp(120px, 16vw, 200px);
+        --pad-card: clamp(24px, 3vw, 40px);
+
+        --nav-h: 60px;
+        --lm: 8vw;
+        --rm: 8vw;
+        --max: 1440px;
+
+        --f-dis:  'Anton', Impact, 'Arial Black', sans-serif;
+        --f-hd:   'Bebas Neue', 'Anton', sans-serif;
+        --f-body: 'Space Mono', 'Courier New', monospace;
+
+        --dur-instant: 80ms;
+        --dur-fast:    200ms;
+        --dur-normal:  400ms;
+        --dur-slow:    800ms;
+        --dur-crawl:   1200ms;
+        --ease:  cubic-bezier(0.16, 1, 0.3, 1);
+        --snap:  cubic-bezier(0.7,  0, 0.84, 0);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html   { scroll-behavior:auto; }
+    body   {
+        background: var(--black);
+        color: var(--white);
+        font-family: var(--f-body);
+        font-size: 15px;
+        line-height: 1.7;
+        cursor: crosshair;
+        overflow-x: hidden;
+    }
+    img    { display:block; max-width:100%; }
+    a      { color:inherit; text-decoration:none; cursor:crosshair; }
+    button { cursor:crosshair; font-family:inherit; }
+    ul     { list-style:none; }
+
+    ::-webkit-scrollbar       { width:4px; }
+    ::-webkit-scrollbar-track { background:var(--black); }
+    ::-webkit-scrollbar-thumb { background:var(--white); }
+
+    /* Visible keyboard focus ring (WCAG 2.4.7) */
+    a:focus-visible, button:focus-visible,
+    input:focus-visible, select:focus-visible {
+        outline: 2px solid var(--red);
+        outline-offset: 2px;
+    }
+
+    /* Grain overlay — body level, 0.5 opacity */
+    body::after {
+        content:'';
+        position:fixed; inset:0;
+        pointer-events:none; z-index:9999;
+        opacity:.5;
+        background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+        background-size:160px;
+    }
+
+    #cc { position:fixed; inset:0; z-index:99999; pointer-events:none; }
+
+    /* ═══════════════════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════════════════ */
+    .wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--lm); padding-right: var(--rm); }
+
+    .eyebrow {
+        font-size: 9px; letter-spacing: .2em;
+        color: var(--muted); text-transform: uppercase;
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: var(--sp-2); font-family: var(--f-body);
+    }
+    .eyebrow::before { content:''; width:12px; height:1px; background:var(--red); flex-shrink:0; }
+
+    .section-heading {
+        font-family: var(--f-hd); font-size: clamp(48px, 7vw, 80px);
+        letter-spacing: .04em; line-height: .95; text-transform: uppercase;
+        color: var(--white); overflow: visible; white-space: nowrap;
+    }
+    .section-heading .cut { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.55); }
+
+    .divider { height: 1px; background: var(--line); margin: var(--sp-6) 0; }
+
+    .reveal {
+        opacity: 0; transform: translateY(44px) skewX(-1deg);
+        transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ═══════════════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════════════ */
+    .b-solid {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-family: var(--f-hd); font-size: 16px;
+        letter-spacing: .1em; text-transform: uppercase;
+        background: var(--red); color: #0a0a0a; border: none; font-weight:700;
+        padding: 14px 34px; box-shadow: 4px 4px 0 var(--white);
+        transition: transform var(--dur-instant), box-shadow var(--dur-instant);
+        cursor: crosshair; white-space: nowrap;
+    }
+    .b-solid:hover  { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--white); }
+    .b-solid:active { transform: translate(4px,4px); box-shadow: none; background: var(--red-dk); color:#0a0a0a; }
+
+    .b-ghost {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-family: var(--f-hd); font-size: 15px;
+        letter-spacing: .1em; text-transform: uppercase;
+        background: transparent; color: var(--white);
+        border: 1px solid var(--white); padding: 13px 32px;
+        transition: background var(--dur-instant), color var(--dur-instant);
+        cursor: crosshair; white-space: nowrap;
+    }
+    .b-ghost:hover { background: var(--white); color: var(--black); }
+
+    .b-text {
+        display: inline-flex; align-items: center; gap: 8px;
+        font-family: var(--f-hd); font-size: 14px;
+        letter-spacing: .1em; text-transform: uppercase;
+        background: none; border: none; color: var(--silver);
+        position: relative; padding-bottom: 4px; cursor: crosshair;
+        transition: color var(--dur-fast);
+    }
+    .b-text::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--red); transition:width var(--dur-fast); }
+    .b-text:hover { color: var(--white); }
+    .b-text:hover::after { width: 100%; }
+
+    .btn-sm { font-size: 13px; padding: 10px 24px; }
+
+    /* ═══════════════════════════════════════════════
+       TAGS
+    ═══════════════════════════════════════════════ */
+    .tag {
+        font-family: var(--f-body); font-size: 9px;
+        letter-spacing: .14em; text-transform: uppercase;
+        padding: 3px 10px; border: 1px solid var(--line-fn);
+        color: var(--bone); background: transparent;
+        transition: border-color var(--dur-fast), color var(--dur-fast);
+        cursor: crosshair;
+    }
+    .tag:hover { border-color: var(--white); color: var(--white); }
+    .tag-r     { border-color: var(--red);   color: var(--red); }
+    .tag-w     { border-color: var(--white);  color: var(--white); }
+
+    /* ═══════════════════════════════════════════════
+       CARDS
+    ═══════════════════════════════════════════════ */
+    .card { background: var(--card); border: 1px solid var(--line); overflow: hidden; cursor: crosshair; transition: transform 120ms, box-shadow 120ms, border-color 120ms; }
+    .card:hover { transform: translateY(-4px); box-shadow: 4px 4px 0 var(--white); border-color: var(--white); }
+    .card-img { overflow: hidden; position: relative; }
+    .card-img img { width: 100%; display: block; transition: filter var(--dur-fast), transform var(--dur-fast); }
+    .card:hover .card-img img { filter: brightness(1.1); transform: scale(1.04); }
+    .card-img::after { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E"); pointer-events:none; mix-blend-mode:overlay; }
+
+    /* ═══════════════════════════════════════════════
+       FORMS  (functional borders ≥ 3:1)
+    ═══════════════════════════════════════════════ */
+    .f-field  { display: flex; flex-direction: column; gap: 6px; }
+    .f-label  { font-family: var(--f-hd); font-size: 11px; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+    .f-input  { width:100%; background:transparent; border:none; border-bottom:1px solid var(--line-fn); color:var(--white); font-family:var(--f-body); font-size:13px; padding:9px 0; outline:none; caret-color:var(--red); transition:border-color var(--dur-fast); }
+    .f-input::placeholder { color:#757575; }
+    .f-input:focus        { border-bottom-color:var(--white); }
+    .f-select { width:100%; background:transparent; border:none; border-bottom:1px solid var(--line-fn); color:var(--white); font-family:var(--f-body); font-size:13px; padding:9px 0; outline:none; cursor:crosshair; -webkit-appearance:none; transition:border-color var(--dur-fast); }
+    .f-select:focus { border-bottom-color:var(--white); }
+    .f-select option { background:var(--card); }
+
+    /* ═══════════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════════ */
+    nav { position:sticky; top:0; width:100%; height:var(--nav-h); background:rgba(10,10,10,.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,.06); z-index:1000; transition:all var(--dur-slow); }
+    nav.scrolled { border-bottom-color:rgba(255,255,255,.15); box-shadow:0 1px 32px rgba(0,0,0,.7); }
+    .nav-inner { height:100%; display:flex; align-items:center; justify-content:space-between; padding:0 var(--lm); }
+    .nav-logo img { height:20px; transition:filter var(--dur-fast); }
+    .nav-logo:hover img { filter:drop-shadow(2px 2px 0 var(--red)); }
+    .nav-links { display:flex; gap:var(--sp-4); align-items:center; }
+    .nav-links a { font-family:var(--f-hd); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); position:relative; padding-bottom:3px; transition:color var(--dur-instant); }
+    .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--red); transition:width var(--dur-fast); }
+    .nav-links a:hover, .nav-links a.active { color:var(--white); }
+    .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+    .nav-cta { font-family:var(--f-hd); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#0a0a0a!important; background:var(--red); color:#0a0a0a; border:none; padding:7px 18px; box-shadow:2px 2px 0 var(--white); transition:transform var(--dur-instant), box-shadow var(--dur-instant); }
+    .nav-cta:hover { transform:translate(1px,1px); box-shadow:1px 1px 0 var(--white); }
+
+    .burger { display:none; flex-direction:column; gap:5px; background:none; border:none; }
+    .burger span { display:block; width:24px; height:1px; background:var(--white); transition:all var(--dur-fast); }
+    .burger.open span:nth-child(1) { transform:rotate(45deg) translate(4px,4px); }
+    .burger.open span:nth-child(2) { opacity:0; }
+    .burger.open span:nth-child(3) { transform:rotate(-45deg) translate(4px,-4px); }
+
+    .mob-nav { display:none; position:fixed; top:var(--nav-h); left:0; width:100%; background:rgba(10,10,10,.97); border-bottom:1px solid var(--line); padding:var(--sp-4) var(--lm); flex-direction:column; gap:var(--sp-3); z-index:999; }
+    .mob-nav.open { display:flex; }
+    .mob-nav a { font-family:var(--f-hd); font-size:1.2rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); border-bottom:1px solid var(--line); padding-bottom:var(--sp-2); transition:color var(--dur-instant); }
+    .mob-nav a:hover { color:var(--white); }
+
+    /* ═══════════════════════════════════════════════
+       SECTION SHARED
+    ═══════════════════════════════════════════════ */
+    section { padding: var(--pad-sec) 0; border-bottom: 1px solid var(--line); position: relative; }
+    .sec-head { display:grid; grid-template-columns:1fr auto; align-items:baseline; gap:var(--sp-4); padding-bottom:var(--sp-6); margin-bottom:var(--sp-8); border-bottom:1px solid var(--line); }
+    .sec-num   { display:none; }
+    .sec-title { font-family:var(--f-dis); font-size:clamp(42px,5vw,64px); line-height:1; letter-spacing:-.02em; text-transform:uppercase; }
+    .sec-desc  { font-size:10px; color:var(--dim); line-height:1.7; max-width:260px; text-align:right; letter-spacing:.08em; text-transform:uppercase; }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    #hero { min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end; position:relative; overflow:hidden; padding-bottom:0; border-bottom:1px solid var(--line); }
+    .hero-bg { position:absolute; inset:0; background-image:url('images/hero-band.jpg'); background-size:cover; background-position:center 30%; filter:contrast(1.05) brightness(.85) saturate(1.2); will-change:transform; }
+    .hero-tex { position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"), repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.025) 2px,rgba(255,255,255,.025) 3px); mix-blend-mode:overlay; pointer-events:none; }
+    .hero-vignette { position:absolute; inset:0; background: radial-gradient(ellipse at 40% 50%, transparent 25%, rgba(10,10,10,.8) 80%), linear-gradient(to bottom, rgba(10,10,10,.55) 0%, transparent 18%, transparent 62%, rgba(10,10,10,.96) 100%); pointer-events:none; }
+    .hero-content { position:relative; z-index:1; padding:var(--pad-hero) var(--lm) 0; }
+    .hero-eyebrow { font-family:var(--f-body); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.62); margin-bottom:var(--sp-4); display:block; }
+    .hero-hl { display:block; font-family:var(--f-dis); text-transform:uppercase; letter-spacing:-.025em; line-height:.88; overflow:visible; white-space:nowrap; }
+    .hl-a { font-size:clamp(80px,14vw,180px); color:var(--white); }
+    .hl-b { font-size:clamp(65px,11vw,150px); color:transparent; -webkit-text-stroke:1.5px rgba(255,255,255,.6); margin-top:-.1em; padding-left:5vw; }
+    .hl-c { font-size:clamp(90px,16vw,210px); color:var(--white); margin-top:-.12em; }
+    .hl-period { color:var(--red); -webkit-text-stroke:0; }
+    .hero-sep  { width:48px; height:1px; background:rgba(255,255,255,.4); margin:var(--sp-4) 0; }
+    .hero-sub  { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.62); margin-bottom:var(--sp-6); }
+    .hero-actions { display:flex; gap:var(--sp-3); flex-wrap:wrap; margin-bottom:var(--sp-10); }
+    .hero-strip { position:relative; z-index:1; border-top:1px solid rgba(255,255,255,.1); background:rgba(10,10,10,.8); backdrop-filter:blur(6px); }
+    .hero-strip-inner { display:flex; padding-left:var(--lm); }
+    .hs-item { flex:1; padding:var(--sp-3) var(--sp-4); border-right:1px solid rgba(255,255,255,.08); transition:background var(--dur-fast); }
+    .hs-item:last-child { border-right:none; }
+    .hs-label { font-size:8px; letter-spacing:.22em; text-transform:uppercase; color:var(--red); margin-bottom:3px; }
+    .hs-val   { font-family:var(--f-dis); font-size:18px; letter-spacing:.03em; color:var(--white); }
+
+    /* ═══════════════════════════════════════════════
+       TICKER
+    ═══════════════════════════════════════════════ */
+    #ticker { padding:12px 0; overflow:hidden; border-bottom:1px solid var(--line); }
+    .tick-track { display:inline-block; white-space:nowrap; animation:tick 20s linear infinite; font-family:var(--f-hd); font-size:15px; letter-spacing:.1em; text-transform:uppercase; color:var(--bone); }
+    .tick-track .sep { margin:0 var(--sp-3); color:var(--muted); }
+    @keyframes tick { to { transform:translateX(-50%); } }
+
+    /* ═══════════════════════════════════════════════
+       ABOUT  (first content section)
+    ═══════════════════════════════════════════════ */
+    #about { background:var(--black); }
+    .about-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:clamp(40px,6vw,96px); align-items:start; }
+    .bphoto { position:relative; cursor:crosshair; }
+    .bphoto::before { content:''; position:absolute; top:8px; left:-8px; right:8px; bottom:-8px; border:1px solid var(--line); z-index:0; transition:all var(--dur-fast); }
+    .bphoto:hover { box-shadow:4px 4px 0 var(--white); }
+    .bphoto:hover::before { top:4px; left:-4px; right:4px; bottom:-4px; }
+    .bphoto img { position:relative; z-index:1; width:100%; transition:filter var(--dur-fast); }
+    .bphoto:hover img { }
+    .bio { font-size:15px; line-height:1.7; color:var(--bone); font-family:var(--f-body); }
+    .bio strong { color:var(--white); font-weight:700; }
+    .bio em { color:var(--bone); font-style:normal; text-decoration:underline; text-decoration-color:rgba(255,255,255,.3); }
+    .bio + .bio { margin-top:var(--sp-4); }
+    .bio-tags { display:flex; flex-wrap:wrap; gap:var(--sp-1); margin-top:var(--sp-4); margin-bottom:var(--sp-4); }
+
+    /* ═══════════════════════════════════════════════
+       LATEST RELEASE
+    ═══════════════════════════════════════════════ */
+    #latest { background:#0d0d0d; }
+    .latest-grid { display:grid; grid-template-columns:1fr 1.1fr; gap:0; align-items:start; }
+    .art-col { padding-right:clamp(32px,4vw,64px); }
+    .art-wrap { position:relative; transform:rotate(-1deg); transform-origin:bottom left; }
+    .art-wrap::before { content:''; position:absolute; top:8px; left:-8px; right:8px; bottom:-8px; border:1px solid rgba(255,255,255,.12); z-index:0; pointer-events:none; }
+    .art-wrap img { position:relative; z-index:1; width:100%; transition:filter var(--dur-fast); }
+    .art-wrap:hover img { }
+    .art-sticker { position:absolute; top:-10px; right:-10px; z-index:2; background:var(--white); color:var(--black); font-family:var(--f-hd); font-size:14px; letter-spacing:.06em; padding:5px 14px; box-shadow:3px 3px 0 var(--line-fn); transform:rotate(1.5deg); }
+    .art-caption { margin-top:var(--sp-2); font-size:9px; letter-spacing:.14em; color:var(--muted); text-transform:uppercase; }
+    .rel-title { font-family:var(--f-dis); font-size:clamp(80px,13vw,180px); letter-spacing:-.025em; line-height:.88; text-transform:uppercase; color:var(--white); overflow:visible; white-space:nowrap; margin-right:-4vw; margin-bottom:var(--sp-3); }
+    .rel-meta  { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin-bottom:var(--sp-4); }
+    .rel-pull  { font-family:var(--f-body); font-size:15px; line-height:1.7; color:var(--bone); border-left:1px solid rgba(255,255,255,.25); padding-left:var(--sp-3); margin-bottom:var(--sp-6); }
+    .rel-pull strong { color:var(--white); font-weight:700; }
+    .tl-head { font-size:9px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; margin-bottom:var(--sp-2); }
+    .track { display:flex; align-items:center; gap:var(--sp-2); padding:10px 0; border-bottom:1px solid var(--line); cursor:crosshair; transition:padding-left var(--dur-fast),background var(--dur-fast); }
+    .track:hover { padding-left:8px; }
+    .track:hover .tn, .track:hover .tt { color:var(--white); }
+    .tn { font-family:var(--f-hd); font-size:14px; color:var(--muted); width:20px; text-align:center; flex-shrink:0; transition:color var(--dur-fast); }
+    .tt { font-family:var(--f-body); font-size:13px; letter-spacing:.02em; color:var(--bone); flex:1; transition:color var(--dur-fast); }
+    .tl { margin-bottom:var(--sp-6); }
+    .plats { display:flex; flex-wrap:wrap; gap:var(--sp-1); }
+    .plat { font-family:var(--f-body); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone); border:1px solid var(--line-fn); padding:3px 10px; transition:border-color var(--dur-fast),color var(--dur-fast); cursor:crosshair; }
+    .plat:hover { border-color:var(--white); color:var(--white); }
+
+    /* ═══════════════════════════════════════════════
+       SOCIAL PROOF  (stats removed)
+    ═══════════════════════════════════════════════ */
+    #proof { background:var(--black); }
+    .proof-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-bottom:var(--sp-8); }
+    .proof-card { background:var(--card); border:1px solid var(--line); border-top:2px solid var(--line); padding:var(--sp-4); position:relative; overflow:hidden; cursor:crosshair; transition:border-color var(--dur-fast),border-top-color var(--dur-fast); }
+    .proof-card:hover { border-color:var(--white); border-top-color:var(--red); }
+    .proof-card::before { content:'\201C'; font-family:var(--f-dis); font-size:7rem; line-height:1; color:rgba(255,255,255,.05); position:absolute; top:-10px; left:12px; pointer-events:none; }
+    .pq { font-family:var(--f-body); font-style:italic; font-size:13px; line-height:1.7; color:var(--bone); margin-bottom:var(--sp-2); position:relative; z-index:1; }
+    .ps { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+    .stage-strip { padding-top:var(--sp-6); margin-top:var(--sp-6); border-top:1px solid var(--line); }
+    .stage-lbl   { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); text-align:center; margin-bottom:var(--sp-3); }
+    .stage-names { display:flex; flex-wrap:wrap; gap:var(--sp-1); justify-content:center; }
+    .sname { font-family:var(--f-body); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone); border:1px solid var(--line-fn); padding:3px 10px; transition:all var(--dur-fast); cursor:crosshair; }
+    .sname:hover { color:var(--white); border-color:var(--white); }
+
+    /* ═══════════════════════════════════════════════
+       DISCOGRAPHY
+    ═══════════════════════════════════════════════ */
+    #discography { background:#0d0d0d; }
+    .disc-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:3px; }
+    .disc-card { position:relative; overflow:hidden; aspect-ratio:1; background:var(--card); cursor:crosshair; }
+    .disc-card img { width:100%; height:100%; object-fit:cover; transition:transform var(--dur-slow),filter var(--dur-fast); }
+    .disc-ph { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; overflow:hidden; transition:transform var(--dur-slow); }
+    .disc-ph::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 18px,rgba(255,255,255,.015) 18px,rgba(255,255,255,.015) 19px); }
+    .dpm { background:linear-gradient(135deg,#05051e,#001a38,#050505); }
+    .dpn { background:linear-gradient(135deg,#060606,#1a0f00,#2a1400,#050505); }
+    .dpb { font-family:var(--f-hd); font-size:.6rem; letter-spacing:4px; color:rgba(255,255,255,.55); z-index:1; }
+    .dpt { font-family:var(--f-dis); font-size:clamp(1.3rem,2.5vw,2.5rem); color:var(--white); z-index:1; text-align:center; line-height:1; padding:0 .5rem; }
+    .dpy { font-family:var(--f-body); font-size:.5rem; letter-spacing:.3em; color:rgba(255,255,255,.45); z-index:1; margin-top:.4rem; }
+    .disc-card:hover img, .disc-card:hover .disc-ph { transform:scale(1.04); }
+    .disc-card:hover img { }
+    .disc-card:hover .disc-ov { opacity:1; }
+    .disc-ov { position:absolute; inset:0; background:rgba(10,10,10,.92); border:1px solid var(--white); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity var(--dur-fast); gap:var(--sp-1); }
+    .dov-t { font-size:8px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+    .dov-n { font-family:var(--f-dis); font-size:clamp(1rem,2vw,1.6rem); letter-spacing:-.01em; text-align:center; padding:0 var(--sp-2); }
+    .dov-y { font-size:9px; letter-spacing:.14em; color:var(--silver); margin-bottom:var(--sp-2); }
+
+    /* ═══════════════════════════════════════════════
+       SHOWS
+    ═══════════════════════════════════════════════ */
+    #shows { background:var(--black); }
+    .show-row { display:grid; grid-template-columns:80px 1fr auto; gap:var(--sp-4); align-items:center; padding:var(--sp-3) 0; border-bottom:1px solid var(--line); cursor:crosshair; position:relative; border-left:2px solid transparent; padding-left:var(--sp-2); transition:border-left-color var(--dur-instant); }
+    .show-row::before { content:''; position:absolute; left:calc(-1 * var(--lm)); top:0; bottom:0; width:0; background:rgba(255,255,255,.02); transition:width var(--dur-fast); pointer-events:none; }
+    .show-row:hover::before { width:120vw; }
+    .show-row:hover { border-left-color:var(--red); } .show-row:hover .show-day { color:var(--red); }
+    .show-date { text-align:center; flex-shrink:0; }
+    .show-day  { font-family:var(--f-dis); font-size:2.5rem; line-height:1; color:var(--silver); transition:color var(--dur-instant); }
+    .show-mo   { font-family:var(--f-hd); font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+    .show-yr   { font-size:9px; letter-spacing:.1em; color:var(--muted); font-family:var(--f-body); }
+    .show-vn   { font-family:var(--f-hd); font-size:1rem; letter-spacing:.08em; text-transform:uppercase; color:var(--white); margin-bottom:2px; }
+    .show-loc  { font-size:11px; color:var(--muted); font-family:var(--f-body); }
+    .show-loc strong { color:var(--bone); }
+    .show-with { font-size:11px; color:var(--muted); margin-top:2px; font-family:var(--f-body); }
+    .show-with span { color:var(--bone); }
+    .show-tix { font-family:var(--f-hd); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--white); background:transparent; border:1px solid rgba(255,255,255,.4); padding:9px 18px; white-space:nowrap; transition:background var(--dur-instant),border-color var(--dur-instant),color var(--dur-instant); flex-shrink:0; }
+    .show-tix:hover { background:var(--white); border-color:var(--white); color:var(--black); }
+    .past-block { padding-top:var(--sp-8); margin-top:var(--sp-8); border-top:1px solid var(--line); }
+    .past-grid  { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-bottom:var(--sp-4); }
+    .past-item  { background:var(--card); border:1px solid var(--line); padding:var(--sp-3) var(--sp-4); border-left:3px solid transparent; transition:border-left-color var(--dur-instant),padding-left var(--dur-fast),background var(--dur-fast); cursor:crosshair; }
+    .past-item:hover { border-left-color:var(--red); padding-left:var(--sp-5); background:rgba(255,255,255,.03); }
+    .past-yr  { font-family:var(--f-dis); font-size:1.8rem; color:var(--faint); line-height:1; }
+    .past-vn  { font-family:var(--f-hd); font-size:.9rem; letter-spacing:.06em; color:var(--bone); margin:.1rem 0; }
+    .past-loc { font-size:9px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; font-family:var(--f-body); }
+    .book-box { background:var(--card); border:1px solid var(--line); border-top:2px solid rgba(255,255,255,.4); padding:var(--sp-6); display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4); flex-wrap:wrap; }
+    .book-title { font-family:var(--f-dis); font-size:clamp(1.8rem,3vw,2.6rem); letter-spacing:-.01em; margin-bottom:var(--sp-1); }
+    .book-sub   { font-size:11px; color:var(--muted); font-family:var(--f-body); }
+
+    /* ═══════════════════════════════════════════════
+       EPK  (stats removed)
+    ═══════════════════════════════════════════════ */
+    #epk { background:var(--black); }
+    .epk-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(40px,6vw,96px); align-items:start; }
+    .epk-pitch { font-family:var(--f-body); font-style:italic; font-size:15px; line-height:1.7; color:var(--bone); border-left:1px solid rgba(255,255,255,.3); padding-left:var(--sp-3); margin-bottom:var(--sp-6); }
+    .epk-pitch strong { color:var(--white); font-style:normal; font-weight:700; }
+    .dl-list { display:flex; flex-direction:column; gap:2px; }
+    .dl-row { display:flex; align-items:center; gap:var(--sp-2); background:var(--card); border:1px solid var(--line); padding:var(--sp-2) var(--sp-3); cursor:crosshair; transition:border-color var(--dur-instant),padding-left var(--dur-instant); }
+    .dl-row:hover { border-color:var(--white); padding-left:40px; }
+    .dl-ico { width:32px; height:32px; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .dl-ico svg { fill:var(--silver); }
+    .dl-nm { font-family:var(--f-hd); font-size:.82rem; letter-spacing:.06em; text-transform:uppercase; color:var(--white); flex:1; }
+    .dl-sz { font-size:9px; color:var(--muted); letter-spacing:.1em; font-family:var(--f-body); }
+    .epk-contact { background:var(--card); border:1px solid var(--line); margin-bottom:2px; }
+    .epk-contact-head { font-size:8px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; padding:var(--sp-2) var(--sp-3); border-bottom:1px solid var(--line); font-family:var(--f-body); }
+    .ecl { display:flex; align-items:center; gap:var(--sp-2); padding:var(--sp-2) var(--sp-3); border-bottom:1px solid var(--line); cursor:crosshair; transition:background var(--dur-instant); }
+    .ecl:last-child { border-bottom:none; }
+    .ecl:hover { background:rgba(255,255,255,.04); }
+    .ecl-r { font-family:var(--f-hd); font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); width:60px; flex-shrink:0; }
+    .ecl-e { font-size:11px; color:var(--bone); font-family:var(--f-body); letter-spacing:.02em; }
+    .epk-tech { background:var(--card); border:1px solid var(--line); }
+    .epk-tech-head { font-size:8px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase; padding:var(--sp-2) var(--sp-3); border-bottom:1px solid var(--line); font-family:var(--f-body); }
+    .tr { display:flex; justify-content:space-between; padding:var(--sp-1) var(--sp-3); border-bottom:1px solid var(--line); }
+    .tr:last-child { border-bottom:none; }
+    .trk { font-size:11px; color:var(--muted); font-family:var(--f-body); }
+    .trv { font-size:11px; color:var(--bone); font-family:var(--f-body); }
+
+    /* ═══════════════════════════════════════════════
+       PHOTOS
+    ═══════════════════════════════════════════════ */
+    #photos { background:var(--black); }
+    .ptabs { display:flex; border-bottom:1px solid var(--line); margin-bottom:var(--sp-4); }
+    .ptab { font-family:var(--f-hd); font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:var(--sp-2) var(--sp-4); border-bottom:1px solid transparent; margin-bottom:-1px; background:none; border-top:none; border-left:none; border-right:none; cursor:crosshair; transition:color var(--dur-instant),border-color var(--dur-instant); }
+    .ptab:hover  { color:var(--bone); }
+    .ptab.active { color:var(--white); border-bottom-color:var(--red); }
+    .ppanel      { display:none; }
+    .ppanel.active { display:block; }
+    .pg3 { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+    .pg4 { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+    .pmain { grid-column:span 2; }
+    .pmain img { aspect-ratio:16/9; }
+    .pitem { position:relative; overflow:hidden; background:var(--card); cursor:crosshair; }
+    .pitem img { width:100%; aspect-ratio:1; object-fit:cover; transition:transform var(--dur-slow),filter var(--dur-fast); }
+    .pitem:hover img { transform:scale(1.04); }
+    .pov { position:absolute; inset:0; background:linear-gradient(to top,rgba(10,10,10,.85) 0%,transparent 50%); opacity:0; transition:opacity var(--dur-fast); display:flex; align-items:flex-end; padding:var(--sp-2); }
+    .pitem:hover .pov { opacity:1; }
+    .pcap { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone); font-family:var(--f-body); }
+    .pdl { position:absolute; top:var(--sp-1); right:var(--sp-1); background:rgba(10,10,10,.9); border:1px solid var(--line-fn); padding:3px 8px; font-family:var(--f-hd); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--bone); opacity:0; transition:opacity var(--dur-fast); }
+    .pitem:hover .pdl { opacity:1; }
+    .pdl:hover { background:var(--white); border-color:var(--white); color:var(--black); }
+
+    /* ═══════════════════════════════════════════════
+       NEWS
+    ═══════════════════════════════════════════════ */
+    #news { background:var(--black); }
+    .news-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:2px; }
+    .nfeat { background:var(--card); position:relative; overflow:hidden; grid-row:span 2; cursor:crosshair; }
+    .nfeat-img { width:100%; aspect-ratio:4/3; object-fit:cover; filter:brightness(.95); transition:transform var(--dur-slow),filter var(--dur-fast); }
+    .nfeat:hover .nfeat-img { transform:scale(1.04); filter:brightness(1.05); }
+    .nfeat-body { padding:var(--sp-4); background:linear-gradient(to top,var(--card) 70%,transparent); position:relative; margin-top:-64px; }
+    .ncard { background:var(--card); border:1px solid var(--line); padding:var(--sp-4); border-left:2px solid transparent; cursor:crosshair; display:flex; flex-direction:column; transition:border-left-color var(--dur-instant),padding-left var(--dur-fast); }
+    .ncard:hover { border-left-color:var(--white); padding-left:var(--sp-6); }
+    .ndate  { font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:var(--sp-1); font-family:var(--f-body); }
+    .ntitle { font-family:var(--f-hd); font-size:clamp(18px,2.5vw,26px); letter-spacing:.04em; line-height:1.1; text-transform:uppercase; color:var(--white); margin-bottom:var(--sp-1); transition:color var(--dur-instant); }
+    .ncard:hover .ntitle, .nfeat:hover .ntitle { color:var(--bone); }
+    .nexc { font-size:11px; color:var(--muted); line-height:1.7; flex:1; font-family:var(--f-body); }
+    .nrm { font-family:var(--f-hd); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--silver); margin-top:var(--sp-2); position:relative; padding-bottom:3px; display:inline-flex; }
+    .nrm::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--red); transition:width var(--dur-fast); }
+    .ncard:hover .nrm::after, .nfeat:hover .nrm::after { width:100%; }
+    .ncard:hover .nrm, .nfeat:hover .nrm { color:var(--white); }
+
+    /* ═══════════════════════════════════════════════
+       MERCH
+    ═══════════════════════════════════════════════ */
+    #merch { background:var(--black); }
+    .merch-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+    .merch-copy { background:var(--card); border:1px solid var(--line); padding:var(--sp-8) var(--pad-card); display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+    .merch-copy::before { content:'SOON'; position:absolute; font-family:var(--f-dis); font-size:10rem; color:rgba(255,255,255,.022); bottom:-1rem; right:-1rem; line-height:1; pointer-events:none; letter-spacing:-.02em; }
+    .merch-title { font-family:var(--f-dis); font-size:clamp(2.5rem,4.5vw,4rem); letter-spacing:-.025em; line-height:.9; margin-bottom:var(--sp-2); }
+    .merch-body  { font-size:13px; color:var(--muted); line-height:1.7; margin-bottom:var(--sp-6); max-width:380px; font-family:var(--f-body); }
+    .merch-art   { background:var(--black); display:flex; align-items:center; justify-content:center; padding:var(--sp-8); }
+    .merch-art img { width:80%; max-width:280px; transition:transform var(--dur-slow),filter var(--dur-fast); }
+    .merch-art:hover img { transform:scale(1.04) rotate(-1.5deg); }
+    .mnot { display:flex; max-width:340px; }
+    .mnot input { flex:1; background:transparent; border:none; border-bottom:1px solid var(--line-fn); padding:9px 0; color:var(--white); font-family:var(--f-body); font-size:13px; outline:none; caret-color:var(--red); transition:border-color var(--dur-fast); }
+    .mnot input:focus { border-bottom-color:var(--white); }
+    .mnot input::placeholder { color:#757575; }
+    .mnot button { font-family:var(--f-hd); font-size:13px; letter-spacing:.1em; text-transform:uppercase; background:var(--white); border:none; color:#0a0a0a; padding:9px var(--sp-3); white-space:nowrap; cursor:crosshair; transition:background var(--dur-instant); }
+    .mnot button:hover { background:var(--bone); }
+
+    /* ═══════════════════════════════════════════════
+       EMAIL CAPTURE
+    ═══════════════════════════════════════════════ */
+    #email-cap { background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:var(--pad-sec) 0; }
+    .ecap-inner { display:flex; align-items:center; justify-content:space-between; gap:var(--sp-8); flex-wrap:wrap; }
+    .ecap-h   { font-family:var(--f-dis); font-size:clamp(48px,7vw,80px); letter-spacing:-.025em; line-height:.9; text-transform:uppercase; margin-bottom:var(--sp-2); }
+    .ecap-sub { font-size:11px; color:var(--muted); font-family:var(--f-body); }
+    .ecap-form { display:flex; flex:1; max-width:500px; min-width:260px; }
+    .ecap-form input { flex:1; background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.5); padding:9px 0; color:var(--white); font-family:var(--f-body); font-size:13px; outline:none; caret-color:var(--red); transition:border-color var(--dur-fast); }
+    .ecap-form input:focus { border-bottom-color:var(--white); }
+    .ecap-form input::placeholder { color:rgba(255,255,255,.5); }
+    .ecap-form button { font-family:var(--f-hd); font-size:14px; letter-spacing:.1em; text-transform:uppercase; background:var(--white); border:none; color:var(--black); padding:9px var(--sp-4); white-space:nowrap; cursor:crosshair; box-shadow:2px 2px 0 rgba(255,255,255,.3); transition:transform var(--dur-instant),box-shadow var(--dur-instant); }
+    .ecap-form button:hover { transform:translate(1px,1px); box-shadow:1px 1px 0 rgba(255,255,255,.3); }
+
+    /* ═══════════════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════════════ */
+    #contact { background:var(--black); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1.3fr; gap:clamp(40px,6vw,96px); }
+    .c-links { display:flex; flex-direction:column; gap:2px; margin-bottom:var(--sp-6); }
+    .c-link { display:flex; align-items:center; gap:var(--sp-2); background:var(--card); border:1px solid var(--line); padding:var(--sp-2) var(--sp-3); border-left:2px solid transparent; cursor:crosshair; transition:border-left-color var(--dur-instant),padding-left var(--dur-fast); }
+    .c-link:hover { border-left-color:var(--white); padding-left:var(--sp-6); }
+    .c-ico { width:32px; height:32px; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .c-ico svg { fill:var(--silver); }
+    .c-lbl { display:block; font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); font-family:var(--f-body); }
+    .c-val { font-size:11px; color:var(--bone); letter-spacing:.02em; font-family:var(--f-body); }
+    .soc-row { display:flex; gap:2px; flex-wrap:wrap; margin-top:var(--sp-4); }
+    .soc-btn { width:40px; height:40px; background:var(--card); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:crosshair; transition:background var(--dur-instant),border-color var(--dur-instant); }
+    .soc-btn:hover { background:var(--white); border-color:var(--white); }
+    .soc-btn:hover svg { fill:var(--black); }
+    .soc-btn svg { fill:var(--silver); transition:fill var(--dur-instant); }
+    .cf { background:var(--card); border:1px solid var(--line); padding:var(--sp-6); border-top:2px solid rgba(255,255,255,.4); }
+    .cf-title { font-family:var(--f-dis); font-size:clamp(2rem,3.5vw,3.2rem); letter-spacing:-.01em; text-transform:uppercase; margin-bottom:var(--sp-2); }
+    .cf-sub   { font-size:11px; color:var(--muted); margin-bottom:var(--sp-6); font-family:var(--f-body); line-height:1.7; }
+    .fg     { display:flex; flex-direction:column; gap:6px; margin-bottom:var(--sp-4); }
+    .fg-row { display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); }
+    .cf-submit { width:100%; font-family:var(--f-hd); font-size:15px; letter-spacing:.1em; text-transform:uppercase; background:var(--white); color:var(--black); border:none; padding:13px; box-shadow:3px 3px 0 rgba(255,255,255,.3); cursor:crosshair; transition:transform var(--dur-instant),box-shadow var(--dur-instant); }
+    .cf-submit:hover { transform:translate(2px,2px); box-shadow:1px 1px 0 rgba(255,255,255,.3); }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer { background:var(--black); border-top:1px solid var(--line); padding:var(--sp-8) 0 var(--sp-4); }
+    .foot-main { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:var(--sp-8); padding-bottom:var(--sp-6); margin-bottom:var(--sp-4); border-bottom:1px solid var(--line); }
+    .foot-logo { height:24px; margin-bottom:var(--sp-3); display:block; }
+    .foot-tag  { font-size:11px; color:var(--muted); line-height:1.7; margin-bottom:var(--sp-4); font-family:var(--f-body); }
+    .foot-soc { display:flex; gap:2px; }
+    .fsoc { width:30px; height:30px; background:rgba(255,255,255,.06); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:crosshair; transition:background var(--dur-instant),border-color var(--dur-instant); }
+    .fsoc:hover { background:var(--white); border-color:var(--white); }
+    .fsoc:hover svg { fill:var(--black); }
+    .fsoc svg { fill:var(--silver); transition:fill var(--dur-instant); }
+    .foot-col h5 { font-family:var(--f-hd); font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:var(--silver); margin-bottom:var(--sp-3); padding-bottom:var(--sp-2); border-bottom:1px solid var(--line); }
+    .foot-col ul { display:flex; flex-direction:column; gap:var(--sp-1); }
+    .foot-col ul a { font-size:11px; color:var(--muted); letter-spacing:.04em; font-family:var(--f-body); transition:color var(--dur-instant); }
+    .foot-col ul a:hover { color:var(--white); }
+    .foot-bot { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--sp-2); }
+    .foot-copy { font-size:9px; color:var(--muted); letter-spacing:.06em; font-family:var(--f-body); }
+    .foot-legal { display:flex; gap:var(--sp-4); }
+    .foot-legal a { font-size:9px; color:var(--muted); letter-spacing:.06em; font-family:var(--f-body); transition:color var(--dur-instant); }
+    .foot-legal a:hover { color:var(--white); }
+
+    body.konami { filter:invert(1); }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media(max-width:1024px) {
+        :root { --lm:5vw; --rm:5vw; }
+        .latest-grid, .epk-grid, .about-grid, .contact-grid { grid-template-columns:1fr; gap:var(--sp-8); }
+        .disc-grid  { grid-template-columns:repeat(2,1fr); }
+        .proof-grid { grid-template-columns:1fr; }
+        .news-grid  { grid-template-columns:1fr; }
+        .nfeat      { grid-row:auto; }
+        .merch-grid { grid-template-columns:1fr; }
+        .past-grid  { grid-template-columns:1fr 1fr; }
+        .foot-main  { grid-template-columns:1fr 1fr; gap:var(--sp-6); }
+        .pg3        { grid-template-columns:1fr 1fr; }
+        .pmain      { grid-column:span 2; }
+        .art-wrap   { transform:none; }
+        .rel-title  { margin-right:0; font-size:clamp(60px,11vw,120px); }
+    }
+    @media(max-width:768px) {
+        :root { --lm:1.5rem; --rm:1.5rem; }
+        .nav-links { display:none; }
+        .burger    { display:flex; }
+        .sec-head  { grid-template-columns:auto 1fr; }
+        .sec-desc  { display:none; }
+        .disc-grid { grid-template-columns:1fr 1fr; }
+        .show-row  { grid-template-columns:70px 1fr; gap:var(--sp-2); }
+        .show-tix  { grid-column:span 2; text-align:center; }
+        .past-grid { grid-template-columns:1fr; }
+        .pg4       { grid-template-columns:1fr 1fr; }
+        .fg-row    { grid-template-columns:1fr; }
+        .foot-main { grid-template-columns:1fr; }
+        .foot-bot  { flex-direction:column; text-align:center; }
+        .ecap-inner { flex-direction:column; }
+        .book-box   { flex-direction:column; align-items:flex-start; }
+        .hl-b { margin-left:0; }
+    }
+    @media(max-width:480px) {
+        .disc-grid { grid-template-columns:1fr; }
+        .pg3,.pg4  { grid-template-columns:1fr; }
+        .pmain     { grid-column:span 1; }
+        .hl-a { font-size:clamp(64px,16vw,100px); }
+        .hl-b { font-size:clamp(52px,13vw,85px); }
+        .hl-c { font-size:clamp(72px,18vw,115px); }
+    }
+
+    
+    /* ── Masonry grid for gig posters ── */
+    .masonry { columns: 4; column-gap: 6px; }
+    .masonry .pitem { display: inline-block; width: 100%; break-inside: avoid; margin-bottom: 6px; }
+    .masonry .pitem img { width: 100%; height: auto; aspect-ratio: unset; object-fit: unset; display: block; }
+    @media(max-width:900px){ .masonry { columns: 2; } }
+    @media(max-width:480px){ .masonry { columns: 1; } }
+
+    
+
+
+    
+    /* ── Video Carousel ─────────────────────────────────── */
+    #videos { background:#0a0a0a; padding:var(--sp-12) 0 var(--sp-10); }
+    .vid-carousel-outer { position:relative; margin:var(--sp-8) 0 var(--sp-6); }
+    .vid-rail {
+        display:flex;
+        gap:20px;
+        overflow-x:auto;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+        padding:4px 0 16px;
+        cursor:grab;
+        scroll-behavior:smooth;
+    }
+    .vid-rail:active { cursor:grabbing; }
+    .vid-rail::-webkit-scrollbar { display:none; }
+    .vid-card {
+        flex:0 0 min(480px, 80vw);
+        scroll-snap-align:start;
+        background:var(--card);
+        border:1px solid var(--line);
+        transition:border-color .2s, transform .2s, box-shadow .2s;
+        user-select:none;
+        position:relative;
+    }
+    .vid-card.active {
+        border-color:var(--red);
+        box-shadow:0 0 0 1px var(--red);
+    }
+    .vid-card:hover { border-color:rgba(255,255,255,.25); }
+    .vid-card.active:hover { border-color:var(--red); }
+    .vid-embed {
+        position:relative;
+        padding-bottom:56.25%;
+        height:0;
+        overflow:hidden;
+        background:#000;
+        pointer-events:none; /* disable while dragging */
+    }
+    .vid-card.active .vid-embed { pointer-events:auto; }
+    .vid-embed iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .vid-meta {
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:10px 14px;
+        border-top:1px solid var(--line);
+    }
+    .vid-name {
+        font-family:var(--f-hd);
+        font-size:11px;
+        letter-spacing:.18em;
+        text-transform:uppercase;
+        color:var(--bone);
+    }
+    .vid-card.active .vid-name { color:var(--red); }
+    .vid-idx {
+        font-family:var(--f-hd);
+        font-size:9px;
+        letter-spacing:.12em;
+        color:var(--muted);
+    }
+    /* Nav arrows */
+    .vid-nav {
+        display:flex;
+        gap:8px;
+        align-items:center;
+        justify-content:space-between;
+    }
+    .vid-nav-arrows { display:flex; gap:8px; }
+    .vid-arr {
+        width:36px; height:36px;
+        border:1px solid var(--line);
+        background:transparent;
+        color:var(--bone);
+        font-size:16px;
+        cursor:pointer;
+        display:flex; align-items:center; justify-content:center;
+        transition:background .15s, border-color .15s, color .15s;
+        flex-shrink:0;
+    }
+    .vid-arr:hover { background:var(--red); border-color:var(--red); color:#0a0a0a; }
+    .vid-arr:disabled { opacity:.25; cursor:default; }
+    .vid-arr:disabled:hover { background:transparent; border-color:var(--line); color:var(--bone); }
+    /* Progress dots */
+    .vid-dots { display:flex; gap:6px; align-items:center; }
+    .vid-dot {
+        width:20px; height:2px;
+        background:var(--line);
+        transition:background .2s, width .2s;
+        cursor:pointer;
+    }
+    .vid-dot.active { background:var(--red); width:32px; }
+    /* Drag hint */
+    .vid-hint { font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+    @media(max-width:600px){
+        .vid-card { flex:0 0 90vw; }
+        .vid-hint { display:none; }
+    }
+
+    </style>
+</head>
+<body>
+
+<canvas id="cc"></canvas>
+
+<!-- ANNOUNCEMENT -->
+<div id="ann" style="background:var(--white);color:var(--black);padding:9px var(--lm);position:relative;z-index:1001;border-bottom:1px solid rgba(0,0,0,.15);display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap;">
+    <span style="font-family:var(--f-hd);font-size:11px;letter-spacing:.14em;text-transform:uppercase;">New Single Out Now</span>
+    <a href="#latest" style="font-family:var(--f-body);font-size:11px;letter-spacing:.02em;border-bottom:1px solid rgba(0,0,0,.4);color:var(--black);cursor:crosshair;">"Destination Fucked" — stream on all platforms →</a>
+    <button onclick="this.parentElement.remove()" style="position:absolute;right:var(--rm);top:50%;transform:translateY(-50%);background:none;border:none;color:#555;font-size:.9rem;cursor:crosshair;">✕</button>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="#hero" class="nav-logo"><svg height="32" viewBox="0 0 2000 552" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="First Time Dead"><path d="M0 5.08887H186.869V83.6428H82.1466V226.201H165.035V308.386H82.1466V546.196H0V5.08887Z" fill="white"/><path d="M278.501 546.17H196.329V5.08887H278.501V546.17Z" fill="white"/><path d="M372.408 546.17H290.236V5.08887H423.312C478.588 5.08887 505.484 27.6424 505.484 88.7314V184.725C505.484 229.806 484.391 247.987 469.844 253.817C488.022 261.821 505.484 275.629 505.484 312.733V502.546C505.484 525.1 509.856 534.535 513.486 542.539V546.17H432.056C428.425 540.34 424.053 530.904 424.053 501.804V338.892C424.053 314.881 419.681 304.704 393.526 304.704H372.434V546.17H372.408ZM372.408 227.633H394.217C416.767 227.633 424.028 213.083 424.028 189.097V113.459C424.028 90.189 419.656 78.5542 394.217 78.5542H372.408V227.633Z" fill="white"/><path d="M636.361 0C703.986 0 730.166 29.8157 730.166 93.8198V182.551H650.909V104.739C650.909 86.5576 647.278 72.7493 627.643 72.7493C608.007 72.7493 603.636 85.1257 603.636 110.569V120.746C603.636 151.303 609.465 168.027 637.077 203.647L689.438 271.282C726.51 319.279 738.169 346.179 738.169 408.01V425.475C738.169 504.745 704.727 552.026 632.015 552.026H616.01C549.843 552.026 515.66 516.38 515.66 449.486V341.116H597.09V435.652C597.09 461.095 605.809 473.472 623.987 473.472C643.622 473.472 650.883 461.095 650.883 426.933V414.556C650.883 375.279 647.253 362.928 617.442 323.651L565.081 256.732C530.182 211.651 520.006 176.721 520.006 122.92V105.455C520.006 32.7308 556.362 0 621.072 0H636.336L636.361 0Z" fill="white"/><path d="M959.195 5.08887V83.6428H890.113V546.196H808.682V83.6428H739.601V5.08887H959.195Z" fill="white"/><path d="M1000.51 493.877V546.17H971.749V403.023H1000.51V455.469H1093.32V493.877H1000.51Z" fill="white"/><path d="M1093.32 354.312V392.387H971.749V354.312H1093.32Z" fill="white"/><path d="M971.749 338.968V284.886L1047.4 242.898L971.749 200.732V148.593H1093.32V186.182H1009.18L1093.32 234.051V254.482L1009.18 302.351H1093.32V338.968H971.749Z" fill="white"/><path d="M971.749 5.08869H999.361V95.6098H1017.33V7.21108H1045.1V95.6098H1065.04V3.45215H1093.32V133.199H971.749V5.08869Z" fill="white"/><path d="M1107.64 5.08887H1233.43C1303.97 5.08887 1325.77 45.0818 1325.77 109.086V438.542C1325.77 505.461 1301.05 546.17 1233.43 546.17H1107.64V5.08887ZM1189.81 467.642H1209.44C1234.88 467.642 1241.43 454.549 1241.43 425.45V120.721C1241.43 89.4474 1233.43 78.5286 1213.07 78.5286H1189.81V467.616V467.642Z" fill="white"/><path d="M1526.53 5.08887V83.6428H1421.8V225.459H1503.98V307.644H1421.8V464.011H1530.87V546.196H1339.63V5.08887H1526.5H1526.53Z" fill="white"/><path d="M1682.87 444.372H1622.5L1612.33 546.196H1538.87L1605.04 5.08887H1702.48L1773.02 546.17H1693.76L1682.84 444.347L1682.87 444.372ZM1631.22 363.645H1674.12L1652.32 163.654L1631.22 363.645Z" fill="white"/><path d="M1781.84 5.08887H1907.63C1978.17 5.08887 1999.97 45.0818 1999.97 109.086V438.542C1999.97 505.461 1975.25 546.17 1907.63 546.17H1781.84V5.08887ZM1864.01 467.642H1883.64C1909.08 467.642 1915.63 454.549 1915.63 425.45V120.721C1915.63 89.4474 1907.63 78.5286 1887.27 78.5286H1864.01V467.616V467.642Z" fill="white"/></svg></a>
+        <div class="nav-links" id="nl">
+            <a href="#about">Band</a>
+            <a href="#latest">Music</a>
+            <a href="#discography">Releases</a>
+            <a href="#shows">Shows</a>
+            <a href="#epk">EPK</a>
+            <a href="#photos">Photos</a>
+            
+            <a href="#merch">Merch</a>
+        </div>
+        <button class="nav-cta" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Get In Touch</button>
+        <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+<div class="mob-nav" id="mobNav">
+    <a href="#about" onclick="mc()">Band</a>
+    <a href="#latest" onclick="mc()">Music</a>
+    <a href="#discography" onclick="mc()">Releases</a>
+    <a href="#shows" onclick="mc()">Shows</a>
+    <a href="#epk" onclick="mc()">EPK</a>
+    <a href="#photos" onclick="mc()">Photos</a>
+    
+    <a href="#merch" onclick="mc()">Merch</a>
+    <a href="#contact" onclick="mc()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="hero-bg" id="hbg"></div>
+    <div class="hero-tex"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-strip">
+        <div class="hero-strip-inner">
+            <div class="hs-item"><div class="hs-label">Latest</div><div class="hs-val">Turmoil EP — 2025</div></div>
+            <div class="hs-item"><div class="hs-label">New Single</div><div class="hs-val">Destination Fucked</div></div>
+            <div class="hs-item"><div class="hs-label">Location</div><div class="hs-val">London, UK</div></div>
+            <div class="hs-item"><div class="hs-label">On All</div><div class="hs-val">Platforms</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- TICKER -->
+<div id="ticker">
+    <div class="tick-track">
+        NEW EP TURMOIL OUT NOW <span class="sep">◆</span> DESTINATION FUCKED — STREAM NOW <span class="sep">◆</span> FIRST TIME DEAD <span class="sep">◆</span> MELODIC HARDCORE FROM LONDON <span class="sep">◆</span> ALL PLATFORMS <span class="sep">◆</span>
+        NEW EP TURMOIL OUT NOW <span class="sep">◆</span> DESTINATION FUCKED — STREAM NOW <span class="sep">◆</span> FIRST TIME DEAD <span class="sep">◆</span> MELODIC HARDCORE FROM LONDON <span class="sep">◆</span> ALL PLATFORMS <span class="sep">◆</span>
+    </div>
+</div>
+
+<!-- 01 · WHO WE ARE -->
+<section id="about">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">01</span>
+            <h2 class="sec-title">Who We Are</h2>
+            <p class="sec-desc">London, UK. Formed 2018. Still loud.</p>
+        </div>
+        <div class="about-grid">
+            <div class="reveal">
+                <div class="bphoto"><img src="images/bio-band.jpg" alt="First Time Dead"></div>
+            </div>
+            <div class="reveal">
+                <div class="divider" style="margin-top:var(--sp-3);margin-bottom:var(--sp-6);"></div>
+                <p class="bio"><strong>First Time Dead</strong> is a fast-paced, melodic punk rock band from <strong>London, UK</strong>. Their sound draws from the golden era of <em>90's melodic hardcore and skatepunk</em> — Descendents, NOFX, Bad Religion, Pennywise.</p>
+                <p class="bio">Formed in <strong>2018</strong>, they hit hard with debut album <em>Rest in Pieces</em> (2019), turned pandemic isolation into <em>Nemesis of Me</em> (2023), and are back with <strong>Turmoil</strong> (2025) — louder, faster, and further from done.</p>
+                <p class="bio">They've built a loyal following across <strong>England and Spain</strong>, played Altimira Festival twice, and shared stages with Authority Zero, Cancer Bats, MakeWar, and many more.</p>
+                <div class="bio-tags">
+                    <span class="tag">Descendents</span>
+                    <span class="tag">NOFX</span>
+                    <span class="tag">Bad Religion</span>
+                    <span class="tag">Pennywise</span>
+                    <span class="tag">Melodic HC</span>
+                    <span class="tag">Skatepunk</span>
+                </div>
+                <button class="b-ghost btn-sm" onclick="document.querySelector('#epk').scrollIntoView({behavior:'smooth'})">View Full EPK →</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 02 · LATEST RELEASE -->
+<section id="latest">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">02</span>
+            <h2 class="sec-title">Latest Release</h2>
+            <p class="sec-desc">New EP out now — six tracks of unfiltered punk energy.</p>
+        </div>
+    </div>
+    <div class="latest-grid" style="padding-left:var(--lm);">
+        <div class="art-col reveal">
+            <div class="art-wrap card-img">
+                <img src="images/turmoil-ep-cover.png" alt="First Time Dead — Turmoil EP">
+                <div class="art-sticker">OUT NOW</div>
+            </div>
+            <p class="art-caption">First Time Dead / Turmoil EP / 2025 / 6 Tracks</p>
+        </div>
+        <div style="padding-right:var(--rm);" class="reveal">
+            <div style="margin-bottom:var(--sp-2)"><span class="tag tag-w">New EP · 2025</span></div>
+            <div class="rel-title">TURMOIL</div>
+            <p class="rel-meta">First Time Dead &nbsp;·&nbsp; 6 Tracks &nbsp;·&nbsp; 2025</p>
+            <p class="rel-pull">Six tracks of unfiltered punk energy. <strong>Turmoil</strong> marks a fierce new chapter — raw, fast, unapologetic. Lead single <strong>"Destination Fucked"</strong> out now everywhere.</p>
+            <div class="tl">
+                <p class="tl-head">Tracklist</p>
+                <div class="track"><span class="tn">01</span><span class="tt">Satisfaction</span></div>
+                <div class="track"><span class="tn">02</span><span class="tt">Races</span></div>
+                <div class="track"><span class="tn">03</span><span class="tt">Complicated</span></div>
+                <div class="track"><span class="tn">04</span><span class="tt">Mockingbird</span></div>
+                <div class="track"><span class="tn">05</span><span class="tt">Destination Fucked</span><span class="tag tag-r">Lead Single</span></div>
+                <div class="track"><span class="tn">06</span><span class="tt">Over</span></div>
+            </div>
+            <div class="plats" style="margin-bottom:var(--sp-4);">
+                <a href="https://open.spotify.com/album/2PhqingXspwgrqNH2VXZJo" target="_blank" rel="noopener" class="plat" style="background:var(--red);border-color:var(--red);color:#0a0a0a;">▶ Play on Spotify</a>
+                <a href="https://music.apple.com/us/artist/first-time-dead/1470351792" target="_blank" rel="noopener" class="plat">Apple Music</a>
+                <a href="https://firsttimedead.bandcamp.com/album/turmoil" target="_blank" rel="noopener" class="plat">Bandcamp</a>
+                <a href="https://www.youtube.com/channel/UCxepd8Eaudc5IEDbXFXFgGg?sub_confirmation=1" target="_blank" rel="noopener" class="plat">YouTube</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 03 · SOCIAL PROOF (stats removed) -->
+<section id="proof">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">03</span>
+            <h2 class="sec-title">What They Said</h2>
+            <p class="sec-desc">Press quotes, stage credits, shared history.</p>
+        </div>
+        <div class="proof-grid">
+            <div class="proof-card reveal"><p class="pq">"Fast, melodic and relentless — First Time Dead deliver the kind of punk that made the 90s so vital. Turmoil is their best work yet."</p><p class="ps">— Add Press Quote Here</p></div>
+            <div class="proof-card reveal"><p class="pq">"An electrifying live act with the songs to back it up. One of London's best kept secrets — for now."</p><p class="ps">— Add Press Quote Here</p></div>
+            <div class="proof-card reveal"><p class="pq">"Destination Fucked hits like a freight train — the kind of opener that makes you want to skate through a wall."</p><p class="ps">— Add Press Quote Here</p></div>
+        </div>
+        <div class="stage-strip reveal">
+            <p class="stage-lbl">Shared the stage with</p>
+            <div class="stage-names">
+                <span class="sname">Authority Zero</span>
+                <span class="sname">Cancer Bats</span>
+                <span class="sname">MakeWar</span>
+                <span class="sname">4ft Fingers</span>
+                <span class="sname">Spoilers</span>
+                <span class="sname">No Trigger</span>
+                <span class="sname">Sam Russo</span>
+                <span class="sname">The Drowns</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 04 · DISCOGRAPHY -->
+<section id="discography">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">04</span>
+            <h2 class="sec-title">Discography</h2>
+            <p class="sec-desc">Full catalogue — 2019 to present.</p>
+        </div>
+    </div>
+    <div class="disc-grid" style="padding-left:var(--lm);padding-right:var(--rm);">
+        <div class="disc-card reveal">
+            <img src="images/bio-band.jpg" alt="Rest in Pieces" style="width:100%;height:100%;object-fit:cover;">
+            <div class="disc-ov"><span class="dov-t">Full-Length Album</span><span class="dov-n">Rest in Pieces</span><span class="dov-y">2019</span><button class="b-ghost btn-sm">Listen Now</button></div>
+        </div>
+        <div class="disc-card reveal">
+            <img src="images/bio-band.jpg" alt="Am I Losing My Mind?" style="width:100%;height:100%;object-fit:cover;">
+            <div class="disc-ov"><span class="dov-t">EP</span><span class="dov-n">Am I Losing My Mind?</span><span class="dov-y">EP</span><button class="b-ghost btn-sm">Listen Now</button></div>
+        </div>
+        <div class="disc-card reveal">
+            <img src="images/bio-band.jpg" alt="Nemesis of Me" style="width:100%;height:100%;object-fit:cover;">
+            <div class="disc-ov"><span class="dov-t">Full-Length Album</span><span class="dov-n">Nemesis of Me</span><span class="dov-y">2023</span><button class="b-ghost btn-sm">Listen Now</button></div>
+        </div>
+        <div class="disc-card reveal">
+            <img src="images/turmoil-ep-cover.png" alt="Turmoil" style="width:100%;height:100%;object-fit:cover;">
+            <div class="disc-ov"><span class="dov-t">EP · New Release</span><span class="dov-n">Turmoil</span><span class="dov-y">2025</span><button class="b-ghost btn-sm">Listen Now</button></div>
+        </div>
+    </div>
+</section>
+
+<!-- 05 · SHOWS -->
+<section id="shows">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">05</span>
+            <h2 class="sec-title">Upcoming Shows</h2>
+            <p class="sec-desc">Live dates for UK and Spain.</p>
+        </div>
+                <div class="reveal">
+            <div class="show-row">
+                <div class="show-date"><div class="show-day">27</div><div class="show-mo">Jun</div><div class="show-yr">2025</div></div>
+                <div>
+                    <div class="show-vn">Freaks &amp; Geeks</div>
+                    <div class="show-loc">Stanford, <strong>UK</strong></div>
+                    <div class="show-with">Headlining <span>Philatropunks Fest</span></div>
+                </div>
+                <a href="#" class="show-tix">Tickets →</a>
+            </div>
+            <div class="show-row">
+                <div class="show-date"><div class="show-day">03</div><div class="show-mo">Jul</div><div class="show-yr">2025</div></div>
+                <div>
+                    <div class="show-vn">Hot Box</div>
+                    <div class="show-loc">Chelmsford, <strong>UK</strong></div>
+                    <div class="show-with">supporting <span>Dear Boy and the Noise</span></div>
+                </div>
+                <a href="#" class="show-tix">Tickets →</a>
+            </div>
+            <div class="show-row">
+                <div class="show-date"><div class="show-day">23</div><div class="show-mo">Aug</div><div class="show-yr">2025</div></div>
+                <div>
+                    <div class="show-vn">New Cross Inn</div>
+                    <div class="show-loc">London, <strong>UK</strong></div>
+                    <div class="show-with">supporting <span>Dead Fish</span></div>
+                </div>
+                <a href="#" class="show-tix">Tickets →</a>
+            </div>
+        </div>
+        </section>
+
+<!-- 06 · EPK (stats removed) -->
+<section id="epk">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">06</span>
+            <h2 class="sec-title">Press Kit</h2>
+            <p class="sec-desc">For bookers, promoters and media.</p>
+        </div>
+        <div class="epk-grid">
+            <div class="reveal">
+                <p class="epk-pitch">"<strong>Fast, melodic, unapologetic punk rock from London</strong> — think Descendents meets Pennywise with a British attitude and something genuine to say."</p>
+                <p class="eyebrow" style="margin-bottom:var(--sp-3);">Downloads</p>
+                <div class="dl-list">
+                    <a href="#" class="dl-row"><div class="dl-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg></div><span class="dl-nm">Full EPK</span><span class="dl-sz">PDF · ~2MB</span></a>
+                    <a href="#" class="dl-row"><div class="dl-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg></div><span class="dl-nm">Hi-Res Band Photos</span><span class="dl-sz">ZIP · ~18MB</span></a>
+                    <a href="#" class="dl-row"><div class="dl-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg></div><span class="dl-nm">Logo Files</span><span class="dl-sz">ZIP · PNG + SVG</span></a>
+                    <a href="#" class="dl-row"><div class="dl-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg></div><span class="dl-nm">Stage Plot + Tech Rider</span><span class="dl-sz">PDF</span></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 07 · PHOTOS -->
+
+<!-- VIDEOS -->
+<section id="videos">
+    <div class="wrap">
+        <div class="sec-head reveal">
+            <div class="sec-title">Official Videos</div>
+            <p class="sec-desc">Drag to browse · Click to play</p>
+        </div>
+        <div class="vid-carousel-outer reveal">
+            <div class="vid-rail" id="vidRail">
+                <div class="vid-card active" data-idx="0">
+                    <div class="vid-embed">
+                        <iframe src="https://www.youtube.com/embed/Pkq4Y9gwOl4" title="Satisfaction" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="vid-meta"><span class="vid-name">Satisfaction</span><span class="vid-idx">01 / 05</span></div>
+                </div>
+                <div class="vid-card" data-idx="1">
+                    <div class="vid-embed">
+                        <iframe src="https://www.youtube.com/embed/oI8SAUG0r8Y" title="Complicated" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="vid-meta"><span class="vid-name">Complicated</span><span class="vid-idx">02 / 05</span></div>
+                </div>
+                <div class="vid-card" data-idx="2">
+                    <div class="vid-embed">
+                        <iframe src="https://www.youtube.com/embed/PVCrjamIGVY" title="Shakedown" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="vid-meta"><span class="vid-name">Shakedown</span><span class="vid-idx">03 / 05</span></div>
+                </div>
+                <div class="vid-card" data-idx="3">
+                    <div class="vid-embed">
+                        <iframe src="https://www.youtube.com/embed/f4hEMU8locg" title="Mediterranean Tears" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="vid-meta"><span class="vid-name">Mediterranean Tears</span><span class="vid-idx">04 / 05</span></div>
+                </div>
+                <div class="vid-card" data-idx="4">
+                    <div class="vid-embed">
+                        <iframe src="https://www.youtube.com/embed/aO8MNRgybzU" title="One Day" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="vid-meta"><span class="vid-name">One Day</span><span class="vid-idx">05 / 05</span></div>
+                </div>
+            </div>
+            <div class="vid-nav" style="margin-top:var(--sp-3);">
+                <div class="vid-nav-arrows">
+                    <button class="vid-arr" id="vidPrev" aria-label="Previous video">&#8592;</button>
+                    <button class="vid-arr" id="vidNext" aria-label="Next video">&#8594;</button>
+                </div>
+                <div class="vid-dots" id="vidDots">
+                    <div class="vid-dot active" data-dot="0"></div>
+                    <div class="vid-dot" data-dot="1"></div>
+                    <div class="vid-dot" data-dot="2"></div>
+                    <div class="vid-dot" data-dot="3"></div>
+                    <div class="vid-dot" data-dot="4"></div>
+                </div>
+                <span class="vid-hint">Drag or use arrow keys</span>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:var(--sp-6);">
+            <a href="https://www.youtube.com/channel/UCxepd8Eaudc5IEDbXFXFgGg?sub_confirmation=1" target="_blank" rel="noopener" class="b-ghost">Subscribe on YouTube &#8594;</a>
+        </div>
+    </div>
+</section>
+
+<section id="photos">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">07</span>
+            <h2 class="sec-title">Photos</h2>
+            <p class="sec-desc"></p>
+        </div>
+        <div class="ptabs">
+            <button class="ptab active" onclick="pt(this,'press')">Press Photos</button>
+            <button class="ptab" onclick="pt(this,'live')">Live Photos</button>
+            <button class="ptab" onclick="pt(this,'art')">Gig Posters</button>
+        </div>
+        <div class="ppanel active" id="tab-press">
+            <div class="pg3 reveal">
+                <div class="pitem pmain"><img src="Slide 16_9 - 1.png" alt="First Time Dead — Press Photo 2024"><div class="pov"><span class="pcap">First Time Dead — London, 2024</span></div><button class="pdl">⬇ Hi-Res</button></div>
+                <div class="pitem"><img src="Slide 16_9 - 1.png" alt="Press" style="object-position:left top"><div class="pov"><span class="pcap">Press Photo — 2024</span></div><button class="pdl">⬇ Hi-Res</button></div>
+                <div class="pitem"><img src="Slide 16_9 - 1.png" alt="Press" style="object-position:right top"><div class="pov"><span class="pcap">Press Photo — 2024</span></div><button class="pdl">⬇ Hi-Res</button></div>
+                <div class="pitem"><img src="Slide 16_9 - 1.png" alt="Press" style="object-position:center bottom"><div class="pov"><span class="pcap">Press Photo — 2024</span></div><button class="pdl">⬇ Hi-Res</button></div>
+            </div>
+        </div>
+        <div class="ppanel" id="tab-live">
+            <div class="pg4 reveal">
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Altimira Festival, Spain — 2023"><div class="pov"><span class="pcap">Altimira Festival, Spain — 2023</span></div></div><div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — New Cross Inn, London"><div class="pov"><span class="pcap">New Cross Inn, London</span></div></div><div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — New Cross Inn, London"><div class="pov"><span class="pcap">New Cross Inn, London</span></div></div><div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — New Cross Inn, London"><div class="pov"><span class="pcap">New Cross Inn, London</span></div></div><div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — New Cross Inn, London"><div class="pov"><span class="pcap">New Cross Inn, London</span></div></div>
+            
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Altimira Festival, Spain — 2024" loading="lazy"><div class="pov"><span class="pcap">Altimira Festival, Spain — 2024</span></div></div>
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Altimira Festival, Spain — 2023" loading="lazy"><div class="pov"><span class="pcap">Altimira Festival, Spain — 2023</span></div></div>
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Altimira Festival, Spain — 2023" loading="lazy"><div class="pov"><span class="pcap">Altimira Festival, Spain — 2023</span></div></div>
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Altimira Festival, Spain — 2023" loading="lazy"><div class="pov"><span class="pcap">Altimira Festival, Spain — 2023</span></div></div>
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Altimira Festival, Spain — 2023" loading="lazy"><div class="pov"><span class="pcap">Altimira Festival, Spain — 2023</span></div></div>
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Keep Flying / Fighting Cocks — May 2024" loading="lazy"><div class="pov"><span class="pcap">Keep Flying / Fighting Cocks — May 2024</span></div></div>
+                <div class="pitem"><img src="images/live-altimira-2023.jpg" alt="Live — Keep Flying / Fighting Cocks — May 2024" loading="lazy"><div class="pov"><span class="pcap">Keep Flying / Fighting Cocks — May 2024</span></div></div>
+            </div>
+        </div>
+        <div class="ppanel" id="tab-art">
+            <div class="masonry reveal">
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="New Cross Inn, London — Dec 2022" loading="lazy"><div class="pov"><span class="pcap">New Cross Inn, London — Dec 2022</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Spoilers / Fighting Cocks — Jan 2023" loading="lazy"><div class="pov"><span class="pcap">Spoilers / Fighting Cocks — Jan 2023</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Altimira Festival, Spain — May 2023" loading="lazy"><div class="pov"><span class="pcap">Altimira Festival, Spain — May 2023</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="No Trigger / New Cross Inn — Jun 2023" loading="lazy"><div class="pov"><span class="pcap">No Trigger / New Cross Inn — Jun 2023</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Decent Criminal / New Cross Inn — Jul 2023" loading="lazy"><div class="pov"><span class="pcap">Decent Criminal / New Cross Inn — Jul 2023</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Carved Dive, Bromley — Sep 2023" loading="lazy"><div class="pov"><span class="pcap">Carved Dive, Bromley — Sep 2023</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Sala Zero, Tarragona — May 2024" loading="lazy"><div class="pov"><span class="pcap">Sala Zero, Tarragona — May 2024</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Altimira Fest, Spain — May 2024" loading="lazy"><div class="pov"><span class="pcap">Altimira Fest, Spain — May 2024</span></div></div>
+                <div class="pitem"><img src="images/live-fighting-cocks-2024.jpg" alt="Keep Flying / Fighting Cocks — May 2024" loading="lazy"><div class="pov"><span class="pcap">Keep Flying / Fighting Cocks — May 2024</span></div></div>
+                <div class="pitem"><img src="images/live-authority-zero-2024.jpg" alt="Authority Zero / New Cross Inn — Jul 2024" loading="lazy"><div class="pov"><span class="pcap">Authority Zero / New Cross Inn — Jul 2024</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Sham 69 / Fighting Cocks — Jan 2025" loading="lazy"><div class="pov"><span class="pcap">Sham 69 / Fighting Cocks — Jan 2025</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Anus / Fighting Cocks" loading="lazy"><div class="pov"><span class="pcap">Anus / Fighting Cocks</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Famous Monsters / New Cross Inn" loading="lazy"><div class="pov"><span class="pcap">Famous Monsters / New Cross Inn</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="The Drowns / Fighting Cocks" loading="lazy"><div class="pov"><span class="pcap">The Drowns / Fighting Cocks</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="4ft Fingers / Fighting Cocks — Mar 2024" loading="lazy"><div class="pov"><span class="pcap">4ft Fingers / Fighting Cocks — Mar 2024</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Dee Cracks / New Cross Inn — Aug 2024" loading="lazy"><div class="pov"><span class="pcap">Dee Cracks / New Cross Inn — Aug 2024</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Our Lives in Cinema / New Cross Inn" loading="lazy"><div class="pov"><span class="pcap">Our Lives in Cinema / New Cross Inn</span></div></div>
+                <div class="pitem"><img src="images/live-new-cross-inn-2022.jpg" alt="Reptile Dysfunction / Camden Eye" loading="lazy"><div class="pov"><span class="pcap">Reptile Dysfunction / Camden Eye</span></div></div>
+            </div>
+        </div>
+        <div style="text-align:right;margin-top:var(--sp-4);">
+            <button class="b-text">Download All →</button>
+        </div>
+    </div>
+</section>
+
+<!-- 08 · NEWS -->
+
+
+<!-- 09 · MERCH -->
+<section id="merch">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">09</span>
+            <h2 class="sec-title">Merch</h2>
+            <p class="sec-desc">Physical drop coming. Sign up first.</p>
+        </div>
+    </div>
+    <div class="merch-grid" style="padding-left:var(--lm);padding-right:var(--rm);">
+        <div class="merch-copy reveal">
+            <div style="margin-bottom:var(--sp-3);"><span class="tag">Coming Soon</span></div>
+            <div class="merch-title">Turmoil<br>Physical<br>Drop</div>
+            <p class="merch-body">Vinyl, CDs, shirts — putting together the first proper merch run. Sign up and be first in line.</p>
+            <div class="mnot">
+                <input type="email" placeholder="your@email.com">
+                <button type="button">Notify Me</button>
+            </div>
+        </div>
+        <div class="merch-art"><img src="images/turmoil-ep-cover.png" alt="Turmoil EP artwork"></div>
+    </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section id="email-cap">
+    <div class="wrap">
+        <div class="ecap-inner reveal">
+            <div>
+                <div class="ecap-h">Don't Miss<br>A Thing<span style="color:var(--red)">.</span></div>
+                <p class="ecap-sub">New music · Tour dates · Exclusive drops. No spam. Just punk.</p>
+            </div>
+            <form class="ecap-form" onsubmit="hEmail(event)">
+                <input type="email" placeholder="your@email.com" required="">
+                <button type="submit">Sign Up →</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- 10 · CONTACT -->
+<section id="contact">
+    <div class="wrap">
+        <div class="sec-head">
+            <span class="sec-num">10</span>
+            <h2 class="sec-title">Contact</h2>
+            <p class="sec-desc">Bookings, press, general. We read everything.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="reveal">
+                <div class="eyebrow" style="margin-bottom:var(--sp-6);">Get In Touch</div>
+                <div class="c-links">
+                    <a href="mailto:band@firsttimedead.com" class="c-link"><div class="c-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg></div><div><span class="c-lbl">General</span><span class="c-val">band@firsttimedead.com</span></div></a>
+                    <a href="mailto:booking@firsttimedead.com" class="c-link"><div class="c-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path></svg></div><div><span class="c-lbl">Booking</span><span class="c-val">booking@firsttimedead.com</span></div></a>
+                    <a href="mailto:press@firsttimedead.com" class="c-link"><div class="c-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path></svg></div><div><span class="c-lbl">Press / Media</span><span class="c-val">press@firsttimedead.com</span></div></a>
+                </div>
+                <div class="soc-row">
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a>
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></a>
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></a>
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"></path></svg></a>
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"></path></svg></a>
+                </div>
+            </div>
+            <div class="reveal">
+                <div class="cf">
+                    <div class="cf-title">Send a<br>Message</div>
+                    <p class="cf-sub">We read everything. Serious enquiries get a reply within 48hrs.</p>
+                    <form>
+                        <div class="fg-row">
+                            <div class="fg"><label class="f-label">Name</label><input class="f-input" type="text" placeholder="First Last"></div>
+                            <div class="fg"><label class="f-label">Email</label><input class="f-input" type="email" placeholder="your@email.com"></div>
+                        </div>
+                        <div class="fg"><label class="f-label">Subject</label><select class="f-select"><option value="">— Select —</option><option>Booking Enquiry</option><option>Press / Media</option><option>Festival / Event</option><option>General</option></select></div>
+                        <div class="fg"><label class="f-label">Message</label><input class="f-input" type="text" placeholder="Tell us something..."></div>
+                        <button type="submit" class="cf-submit">Send Message →</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="wrap">
+        <div class="foot-main">
+            <div>
+                <svg class="foot-logo" viewBox="0 0 2000 552" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="First Time Dead"><path d="M0 5.08887H186.869V83.6428H82.1466V226.201H165.035V308.386H82.1466V546.196H0V5.08887Z" fill="white"/><path d="M278.501 546.17H196.329V5.08887H278.501V546.17Z" fill="white"/><path d="M372.408 546.17H290.236V5.08887H423.312C478.588 5.08887 505.484 27.6424 505.484 88.7314V184.725C505.484 229.806 484.391 247.987 469.844 253.817C488.022 261.821 505.484 275.629 505.484 312.733V502.546C505.484 525.1 509.856 534.535 513.486 542.539V546.17H432.056C428.425 540.34 424.053 530.904 424.053 501.804V338.892C424.053 314.881 419.681 304.704 393.526 304.704H372.434V546.17H372.408ZM372.408 227.633H394.217C416.767 227.633 424.028 213.083 424.028 189.097V113.459C424.028 90.189 419.656 78.5542 394.217 78.5542H372.408V227.633Z" fill="white"/><path d="M636.361 0C703.986 0 730.166 29.8157 730.166 93.8198V182.551H650.909V104.739C650.909 86.5576 647.278 72.7493 627.643 72.7493C608.007 72.7493 603.636 85.1257 603.636 110.569V120.746C603.636 151.303 609.465 168.027 637.077 203.647L689.438 271.282C726.51 319.279 738.169 346.179 738.169 408.01V425.475C738.169 504.745 704.727 552.026 632.015 552.026H616.01C549.843 552.026 515.66 516.38 515.66 449.486V341.116H597.09V435.652C597.09 461.095 605.809 473.472 623.987 473.472C643.622 473.472 650.883 461.095 650.883 426.933V414.556C650.883 375.279 647.253 362.928 617.442 323.651L565.081 256.732C530.182 211.651 520.006 176.721 520.006 122.92V105.455C520.006 32.7308 556.362 0 621.072 0H636.336L636.361 0Z" fill="white"/><path d="M959.195 5.08887V83.6428H890.113V546.196H808.682V83.6428H739.601V5.08887H959.195Z" fill="white"/><path d="M1000.51 493.877V546.17H971.749V403.023H1000.51V455.469H1093.32V493.877H1000.51Z" fill="white"/><path d="M1093.32 354.312V392.387H971.749V354.312H1093.32Z" fill="white"/><path d="M971.749 338.968V284.886L1047.4 242.898L971.749 200.732V148.593H1093.32V186.182H1009.18L1093.32 234.051V254.482L1009.18 302.351H1093.32V338.968H971.749Z" fill="white"/><path d="M971.749 5.08869H999.361V95.6098H1017.33V7.21108H1045.1V95.6098H1065.04V3.45215H1093.32V133.199H971.749V5.08869Z" fill="white"/><path d="M1107.64 5.08887H1233.43C1303.97 5.08887 1325.77 45.0818 1325.77 109.086V438.542C1325.77 505.461 1301.05 546.17 1233.43 546.17H1107.64V5.08887ZM1189.81 467.642H1209.44C1234.88 467.642 1241.43 454.549 1241.43 425.45V120.721C1241.43 89.4474 1233.43 78.5286 1213.07 78.5286H1189.81V467.616V467.642Z" fill="white"/><path d="M1526.53 5.08887V83.6428H1421.8V225.459H1503.98V307.644H1421.8V464.011H1530.87V546.196H1339.63V5.08887H1526.5H1526.53Z" fill="white"/><path d="M1682.87 444.372H1622.5L1612.33 546.196H1538.87L1605.04 5.08887H1702.48L1773.02 546.17H1693.76L1682.84 444.347L1682.87 444.372ZM1631.22 363.645H1674.12L1652.32 163.654L1631.22 363.645Z" fill="white"/><path d="M1781.84 5.08887H1907.63C1978.17 5.08887 1999.97 45.0818 1999.97 109.086V438.542C1999.97 505.461 1975.25 546.17 1907.63 546.17H1781.84V5.08887ZM1864.01 467.642H1883.64C1909.08 467.642 1915.63 454.549 1915.63 425.45V120.721C1915.63 89.4474 1907.63 78.5286 1887.27 78.5286H1864.01V467.616V467.642Z" fill="white"/></svg>
+                <p class="foot-tag">Melodic Hardcore · Punk Rock · Skatepunk<br>London, UK · Est. 2018</p>
+                <div class="foot-soc">
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="fsoc"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a>
+                    <a href="https://facebook.com/firsttimedead" target="_blank" rel="noopener" class="fsoc"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path></svg></a>
+                    <a href="https://www.youtube.com/channel/UCxepd8Eaudc5IEDbXFXFgGg?sub_confirmation=1" target="_blank" rel="noopener" class="fsoc"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg></a>
+                    <a href="https://open.spotify.com/artist/0CBs117Y3Ur7TSiJpVZHqV?si=4zLto2ykTwGURkoCDLgJlg" target="_blank" rel="noopener" class="fsoc"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"></path></svg></a>
+                    <a href="https://music.apple.com/us/artist/first-time-dead/1470351792" target="_blank" rel="noopener" class="fsoc"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5z"></path></svg></a>
+                </div>
+            </div>
+            <div class="foot-col"><h5>Navigate</h5><ul><li><a href="#about">Band</a></li><li><a href="#latest">New Music</a></li><li><a href="#discography">Discography</a></li><li><a href="#shows">Shows</a></li><li><a href="#epk">EPK</a></li><li><a href="#photos">Photos</a></li><li></li><li><a href="#merch">Merch</a></li></ul></div>
+            <div class="foot-col"><h5>Stream</h5><ul><li><a href="https://open.spotify.com/artist/0CBs117Y3Ur7TSiJpVZHqV?si=4zLto2ykTwGURkoCDLgJlg" target="_blank" rel="noopener">Spotify</a></li><li><a href="https://music.apple.com/us/artist/first-time-dead/1470351792" target="_blank" rel="noopener">Apple Music</a></li><li><a href="https://www.youtube.com/channel/UCxepd8Eaudc5IEDbXFXFgGg?sub_confirmation=1" target="_blank" rel="noopener">YouTube</a></li><li><a href="#">Bandcamp</a></li><li><a href="#">Deezer</a></li><li><a href="#">Amazon</a></li></ul></div>
+            <div class="foot-col"><h5>Contact</h5><ul><li><a href="mailto:booking@firsttimedead.com">Booking</a></li><li><a href="mailto:press@firsttimedead.com">Press</a></li><li><a href="mailto:band@firsttimedead.com">General</a></li><li><a href="#epk">Download EPK</a></li></ul></div>
+        </div>
+        <div class="foot-bot">
+            <p class="foot-copy">© 2025 First Time Dead. All rights reserved.</p>
+            <div class="foot-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#epk">EPK</a></div>
+        </div>
+    </div>
+</footer>
+
+<script>
+'use strict';
+
+/* Canvas red splatter on click */
+const cc=document.getElementById('cc'), cx=cc.getContext('2d'), splats=[];
+function rsz(){cc.width=innerWidth;cc.height=innerHeight;} rsz(); addEventListener('resize',rsz);
+document.addEventListener('click',e=>{
+    for(let i=0;i<18;i++){const a=Math.random()*Math.PI*2,spd=Math.random()*9+2;
+    splats.push({x:e.clientX,y:e.clientY,vx:Math.cos(a)*spd,vy:Math.sin(a)*spd-2,life:1,decay:Math.random()*.04+.018,r:Math.random()*4+1.5});}
+});
+(function loop(){
+    cx.clearRect(0,0,cc.width,cc.height);
+    for(let i=splats.length-1;i>=0;i--){const p=splats[i];
+    p.x+=p.vx;p.y+=p.vy;p.vy+=.22;p.vx*=.92;p.vy*=.92;p.life-=p.decay;
+    if(p.life<=0){splats.splice(i,1);continue;}
+    cx.beginPath();cx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);cx.fillStyle=`rgba(255,0,0,${p.life*.88})`;cx.fill();}
+    requestAnimationFrame(loop);
+})();
+
+/* Nav */
+const nav=document.getElementById('nav'),burger=document.getElementById('burger'),mob=document.getElementById('mobNav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80),{passive:true});
+burger.addEventListener('click',()=>{burger.classList.toggle('open');mob.classList.toggle('open');});
+function mc(){burger.classList.remove('open');mob.classList.remove('open');}
+document.addEventListener('click',e=>{if(!burger.contains(e.target)&&!mob.contains(e.target))mc();});
+
+/* Active nav */
+const sects=document.querySelectorAll('section[id]'),navAs=document.querySelectorAll('#nl a');
+window.addEventListener('scroll',()=>{let cur='';sects.forEach(s=>{if(scrollY>=s.offsetTop-100)cur=s.id;});
+navAs.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));},{passive:true});
+
+/* GSAP */
+document.addEventListener('DOMContentLoaded',()=>{
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to('#hbg',{yPercent:30,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+    gsap.timeline({delay:.15})
+        .from('.hero-eyebrow',{y:20,opacity:0,duration:.5,ease:'power2.out'})
+        .from('#hl1',{y:80,skewX:-1,opacity:0,duration:.85,ease:'power4.out'},'-=.15')
+        .from('#hl2',{y:80,skewX:-1,opacity:0,duration:.85,ease:'power4.out'},'-=.6')
+        .from('#hl3',{y:80,skewX:-1,opacity:0,duration:.85,ease:'power4.out'},'-=.6')
+        .from('.hero-sep',{scaleX:0,opacity:0,duration:.5,ease:'power2.out',transformOrigin:'left'},'-=.2')
+        .from('.hero-sub',{y:16,opacity:0,duration:.5,ease:'power2.out'},'-=.2')
+        .from('.hero-actions',{y:16,opacity:0,duration:.5,ease:'power2.out'},'-=.2');
+    const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;
+        const sibs=Array.from(e.target.parentElement.querySelectorAll('.reveal:not(.in)'));
+        setTimeout(()=>e.target.classList.add('in'),Math.min(sibs.indexOf(e.target)*80,320));
+        ro.unobserve(e.target);});},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+});
+
+/* Photo tabs */
+function pt(btn,id){document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.ppanel').forEach(p=>p.classList.remove('active'));
+btn.classList.add('active');document.getElementById('tab-'+id).classList.add('active');}
+
+/* Email */
+function hEmail(e){e.preventDefault();const b=e.target.querySelector('button'),o=b.textContent;
+b.textContent="You're in ✓";e.target.querySelector('input').value='';setTimeout(()=>b.textContent=o,4000);}
+
+/* Smooth scroll */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){
+const t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+
+/* Konami */
+const K=[38,38,40,40,37,39,37,39,66,65];let ki=0;
+document.addEventListener('keydown',e=>{ki=e.keyCode===K[ki]?ki+1:0;
+if(ki===K.length){ki=0;document.body.classList.add('konami');
+for(let i=0;i<8;i++)setTimeout(()=>{document.dispatchEvent(new MouseEvent('click',{clientX:Math.random()*innerWidth,clientY:Math.random()*innerHeight}));},i*100);
+setTimeout(()=>document.body.classList.remove('konami'),3000);}});
+
+/* Vinyl scratch */
+document.addEventListener('dblclick',()=>{try{
+const ac=new(AudioContext||webkitAudioContext)(),len=ac.sampleRate*.35,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);
+for(let i=0;i<len;i++){const t=i/ac.sampleRate;d[i]=(Math.random()*2-1)*Math.sin(Math.PI*t/.35)*Math.pow(1-t/.35,.5)*.28;}
+const src=ac.createBufferSource();src.buffer=buf;const f=ac.createBiquadFilter();f.type='bandpass';f.frequency.value=4000;
+src.connect(f);f.connect(ac.destination);src.start();}catch(e){}});
+</script>
+
+    <script>
+    (function(){
+        var rail   = document.getElementById('vidRail');
+        var cards  = Array.from(rail.querySelectorAll('.vid-card'));
+        var dots   = Array.from(document.querySelectorAll('.vid-dot'));
+        var prev   = document.getElementById('vidPrev');
+        var next   = document.getElementById('vidNext');
+        var active = 0;
+
+        function setActive(idx) {
+            if (idx < 0 || idx >= cards.length) return;
+            active = idx;
+            cards.forEach(function(c,i){
+                c.classList.toggle('active', i === idx);
+            });
+            dots.forEach(function(d,i){
+                d.classList.toggle('active', i === idx);
+            });
+            prev.disabled = idx === 0;
+            next.disabled = idx === cards.length - 1;
+            cards[idx].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'start' });
+        }
+
+        prev.addEventListener('click', function(){ setActive(active - 1); });
+        next.addEventListener('click', function(){ setActive(active + 1); });
+        dots.forEach(function(d){ d.addEventListener('click', function(){ setActive(+d.dataset.dot); }); });
+
+        // Keyboard nav
+        document.addEventListener('keydown', function(e){
+            var sec = document.getElementById('videos');
+            if (!sec) return;
+            var r = sec.getBoundingClientRect();
+            if (r.top > window.innerHeight || r.bottom < 0) return;
+            if (e.key === 'ArrowLeft')  { e.preventDefault(); setActive(active - 1); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); setActive(active + 1); }
+        });
+
+        // Drag to scroll
+        var isDragging = false, startX = 0, scrollStart = 0;
+        rail.addEventListener('mousedown', function(e){
+            isDragging = true; startX = e.pageX; scrollStart = rail.scrollLeft;
+            rail.style.scrollBehavior = 'auto';
+        });
+        window.addEventListener('mousemove', function(e){
+            if (!isDragging) return;
+            rail.scrollLeft = scrollStart - (e.pageX - startX);
+        });
+        window.addEventListener('mouseup', function(){
+            if (!isDragging) return;
+            isDragging = false;
+            rail.style.scrollBehavior = 'smooth';
+            // Snap to nearest card
+            var cardW = cards[0].offsetWidth + 20;
+            var idx = Math.round(rail.scrollLeft / cardW);
+            setActive(Math.max(0, Math.min(idx, cards.length - 1)));
+        });
+
+        // Touch swipe update active
+        rail.addEventListener('scrollend', function(){
+            var cardW = cards[0].offsetWidth + 20;
+            var idx = Math.round(rail.scrollLeft / cardW);
+            setActive(Math.max(0, Math.min(idx, cards.length - 1)));
+        });
+        // Fallback for browsers without scrollend
+        var scrollTimer;
+        rail.addEventListener('scroll', function(){
+            clearTimeout(scrollTimer);
+            scrollTimer = setTimeout(function(){
+                var cardW = cards[0].offsetWidth + 20;
+                var idx = Math.round(rail.scrollLeft / cardW);
+                setActive(Math.max(0, Math.min(idx, cards.length - 1)));
+            }, 80);
+        });
+
+        setActive(0);
+    })();
+    </script>
+</body></html>
